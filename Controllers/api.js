@@ -99,10 +99,13 @@ router.get("/distance", (req, res) => {
         .on("end", () => {
             // If we have two stations, return the distance between them.
             if (data.length === 2) {
+                const distance =
+                    data[1]["Distance in Kms"] - data[0]["Distance in Kms"] > 0
+                        ? data[1]["Distance in Kms"] -
+                          data[0]["Distance in Kms"]
+                        : 0;
                 return res.send({
-                    distanceInKms: (
-                        data[1]["Distance in Kms"] - data[0]["Distance in Kms"]
-                    ).toFixed(6)
+                    distanceInKms: distance.toFixed(6)
                 });
                 // Else, they either don't exist in the same line or are invalid.
             } else {
